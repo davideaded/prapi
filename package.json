@@ -1,0 +1,19 @@
+{
+  "name": "prapi",
+  "version": "1.0.0",
+  "description": "personal rambling api",
+  "main": "src/api/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.12.0"
+  }
+}
