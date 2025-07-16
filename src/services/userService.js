@@ -10,6 +10,12 @@ export async function getUserById(id) {
     return user;
 }
 
+export async function getUserByName(name) {
+    const user = await prisma.user.findUnique({ where: { name } });
+    if (!user) throw new NotFoundError('User not found');
+    return user;
+}
+
 export async function createUser(userData) {
     const { name, password, role = 'USER' } = userData;
     const validRoles = ['USER', 'ADMIN', 'AUTHOR'];

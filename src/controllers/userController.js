@@ -1,5 +1,5 @@
 import * as userService from '../services/userService.js';
-import { BadRequestError } from '../utils/error.js';
+import { BadRequestError, ForbiddenError} from '../utils/error.js';
 
 export async function getUserById(req, res, next) {
     try {
