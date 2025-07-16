@@ -30,11 +30,12 @@ export async function getPostById(req, res, next) {
 export async function createPost(req, res, next) {
     try {
         const { title, content } = req.body;
+        const authorId = req.user.id;
         if (!title || title.trim() === '') {
             return next(new BadRequestError('Title is required'));
         }
         const post = await postService
-            .createPost({title, content});
+            .createPost({title, content, authorId});
         res.status(201).json({
             message: 'Post created',
             post: {

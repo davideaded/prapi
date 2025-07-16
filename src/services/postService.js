@@ -16,12 +16,6 @@ export async function getAllPosts() {
     return posts;
 }
 
-export async function getMaxPosts(max) {
-    const posts = await prisma.post.findMany({take: max});
-    if (posts[0] === undefined) throw new NotFoundError('Posts not found');
-    return posts;
-}
-
 export async function getPostById(id) {
     const post = await prisma.post.findUnique({
         where: { id },
@@ -38,12 +32,12 @@ export async function getPostById(id) {
 }
 
 export async function createPost(postData) {
-    const { title, content } = postData;
+    const { title, content, authorId } = postData;
     return await prisma.post.create({
         data: {
             title,
             content,
-            authorId: 1
+            authorId
         }
     });
 }
