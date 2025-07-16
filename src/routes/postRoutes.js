@@ -1,20 +1,12 @@
 import express from 'express';
+import * as postController from '../controllers/postController.js';
+
 const postRouter = express.Router();
 
-postRouter.get('/', (req, res) => {
-    res.send('hello post');
-});
-postRouter.get('/:id', (req, res) => {
-    res.send('hello post id');
-});
-postRouter.put('/:id', (req, res) => {
-    res.send('edit post');
-});
-postRouter.post('/', (req, res) => {
-    res.send('create post');
-});
-postRouter.delete('/:id', (req, res) => {
-    res.send('delete post');
-});
+postRouter.get('/', postController.getAllPosts);
+postRouter.get('/:id', postController.getPostById);
+postRouter.put('/:id', postController.updatePost);
+postRouter.post('/', postController.createPost);
+postRouter.delete('/:id', postController.deletePost);
 
 export default postRouter;
