@@ -1,6 +1,5 @@
 generator client {
     provider = "prisma-client-js"
-    output   = "../generated/prisma"
 }
 
 datasource db {
@@ -40,7 +39,8 @@ enum Role {
 model User {
   id       Int       @id @default(autoincrement())
   name     String    @unique
+  password String
   posts    Post[]
   comments Comment[]
-  role    Role       @default(USER)
+  role     Role       @default(USER)
 }

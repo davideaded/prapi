@@ -1,11 +1,6 @@
 import express from 'express';
+import * as userController from'../controllers/userController.js'
 const userRouter = express.Router();
-
-const timeLog = (req, res, next) => {
-    console.log('Time: ', Date.now());
-    next();
-}
-userRouter.use(timeLog);
 
 userRouter.get('/', (req, res) => {
     res.send('hello post');
@@ -16,9 +11,7 @@ userRouter.get('/:id', (req, res) => {
 userRouter.put('/:id', (req, res) => {
     res.send('edit post');
 });
-userRouter.post('/:id', (req, res) => {
-    res.send('create post');
-});
+userRouter.post('/', userController.createUser);
 userRouter.delete('/:id', (req, res) => {
     res.send('delete post');
 });
