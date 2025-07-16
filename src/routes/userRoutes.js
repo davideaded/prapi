@@ -2,18 +2,9 @@ import express from 'express';
 import * as userController from'../controllers/userController.js'
 const userRouter = express.Router();
 
-userRouter.get('/', (req, res) => {
-    res.send('hello post');
-});
-userRouter.get('/:id', (req, res) => {
-    res.send('hello post id');
-});
-userRouter.put('/:id', (req, res) => {
-    res.send('edit post');
-});
+userRouter.get('/:id', userController.getUserById);
+userRouter.put('/:id', userController.updateUser);
 userRouter.post('/', userController.createUser);
-userRouter.delete('/:id', (req, res) => {
-    res.send('delete post');
-});
+userRouter.delete('/:id', userController.deleteUser);
 
 export default userRouter;
