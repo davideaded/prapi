@@ -1,10 +1,24 @@
 import { PrismaClient } from '@prisma/client';
 import { BadRequestError, NotFoundError } from '../utils/error.js';
-
 const prisma = new PrismaClient();
 
 export async function getAllComments() {
     const comments = await prisma.comment.findMany({
+        include: {
+            author: {
+                select: { name: true }
+            },
+            Post: {
+                select: { title: true }
+            }
+        }
+    });
+    return comments;
+}
+
+export async function getCommentsByPostId(postId) {
+    const comments = await prisma.comment.findMany({
+        where: { postId },
         include: {
             author: {
                 select: { name: true }

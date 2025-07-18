@@ -13,6 +13,18 @@ export async function getAllPosts(req, res, next) {
     }
 }
 
+export async function getAllPublicPosts(req, res, next) {
+    try {
+        const posts = await postService.getAllPublicPosts();
+        res.status(200).json({
+            message: `${posts.length} fetched`,
+            posts
+        });
+    } catch(err) {
+        next(err);
+    }
+}
+
 export async function getPostById(req, res, next) {
     try {
         const id = +req.params.id;
@@ -29,18 +41,19 @@ export async function getPostById(req, res, next) {
 
 export async function createPost(req, res, next) {
     try {
-        const { title, content } = req.body;
+        const { title, content, published } = req.body;
         const authorId = req.user.id;
         if (!title || title.trim() === '') {
             return next(new BadRequestError('Title is required'));
         }
         const post = await postService
-            .createPost({title, content, authorId});
+            .createPost({title, content, authorId, published});
         res.status(201).json({
             message: 'Post created',
             post: {
                 title: post.title,
-                content: post.content
+                content: post.content,
+                published: post.published
             }
         });
     } catch(err) {
@@ -59,7 +72,8 @@ export async function updatePost(req, res, next) {
             message: 'Post edited',
             post: {
                 title: post.title,
-                content: post.content
+                content: post.content,
+                published: post.published
             }
         });
     } catch(err) {

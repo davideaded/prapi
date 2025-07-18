@@ -13,6 +13,19 @@ export async function getAllComments(req, res, next) {
     }
 }
 
+export async function getCommentsByPostId(req, res, next) {
+    try {
+        const id = +req.params.id;
+        const comments = await commentService.getCommentsByPostId(id);
+        res.status(200).json({
+            message: `${comments.length} comments found`,
+            comments,
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
 export async function getCommentById(req, res, next) {
     try {
         const id = +req.params.id;

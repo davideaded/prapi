@@ -1,14 +1,19 @@
 import express from 'express';
 import * as postController from '../controllers/postController.js';
 import { authenticateToken } from '../middlewares/auth.js';
-import { authorizeSelfOrAdmin } from '../middlewares/authorize.js';
+import { authorizeRoles, authorizeUserOrAdmin } from '../middlewares/authorize.js';
 
 const postRouter = express.Router();
 
-postRouter.get('/', postController.getAllPosts);
-postRouter.get('/:id', postController.getPostById);
-postRouter.put('/:id', authenticateToken, authorizeSelfOrAdmin, postController.updatePost);
-postRouter.post('/', authenticateToken, authorizeSelfOrAdmin, postController.createPost);
-postRouter.delete('/:id', authenticateToken, authorizeSelfOrAdmin, postController.deletePost);
+postRouter.get('/', postController.getAllPublicPosts);
+
+postRouter.get('/all', authenticateToken, authorizeRoles('AUTHOR', 'ADMIN'), postController.getAllPosts);
+
+postRouter.get('/:id', authenticateToken, authorizeRoles('AUTHOR', 'ADMIN'), postController.getPostById);
+
+postRouter.post('/', authenticateToken, authorizeRoles('AUTHOR', 'ADMIN'), postController.createPost);
+
+postRouter.put('/:id', authenticateToken, authorizeUserOrAdmin(req => +req.params.id), postController.updatePost);
+postRouter.delete('/:id', authenticateToken, authorizeUserOrAdmin(req => +req.params.id), postController.deletePost);
 
 export default postRouter;
