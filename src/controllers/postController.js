@@ -1,5 +1,5 @@
 import * as postService from '../services/postService.js';
-import { BadRequestError } from '../utils/error.js';
+import { BadRequestError, ForbiddenError, UnauthorizedError } from '../utils/error.js';
 
 export async function getAllPosts(req, res, next) {
     try {
@@ -27,9 +27,16 @@ export async function getAllPublicPosts(req, res, next) {
 
 export async function getPostById(req, res, next) {
     try {
+        const user = req.user;
         const id = +req.params.id;
         if (isNaN(id)) return next(new BadRequestError('Invalid post ID'));
         const post = await postService.getPostById(id);
+        if (!post.published) {
+            if (!user) return next(new UnauthorizedError('Not authenticated'));
+            if (user.role !== 'ADMIN' && user.role !== 'AUTHOR') {
+                return next(new ForbiddenError('Not allowed'));
+            }
+        }
         res.status(200).json({
             message: 'Post found',
             post
@@ -38,7 +45,6 @@ export async function getPostById(req, res, next) {
         next(err);
     }
 }
-
 export async function createPost(req, res, next) {
     try {
         const { title, content, published } = req.body;
