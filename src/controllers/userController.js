@@ -18,6 +18,11 @@ export async function getUserById(req, res, next) {
     }
 }
 
+export function getMe(req, res, next) {
+  const user = req.user;
+  res.json({ id: user.id, name: user.name, role: user.role });
+}
+
 export async function createUser(req, res, next) {
     try {
         const { name, password, role } = req.body;

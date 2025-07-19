@@ -11,6 +11,8 @@ userRouter.get(
     authorizeUserOrAdmin(req => +req.params.id),
     userController.getUserById);
 
+userRouter.get('/me', authenticateToken, userController.getMe);
+
 userRouter.put(
     '/:id',
     authenticateToken,
