@@ -1,5 +1,5 @@
 import * as userService from '../services/userService.js';
-import { BadRequestError, ForbiddenError} from '../utils/error.js';
+import { BadRequestError } from '../utils/error.js';
 
 export async function getUserById(req, res, next) {
     try {
@@ -29,7 +29,6 @@ export async function createUser(req, res, next) {
         const user = await userService
             .createUser({name, password, role: role.toUpperCase()});
         res.status(201).json({
-            message: 'User created',
             user: {
                 name: user.name,
                 role: user.role
@@ -48,7 +47,6 @@ export async function updateUser(req, res, next) {
         if (!role) return next(new BadRequestError('Invalid body'));
         const user = await userService.updateUser({ id, role });
         res.status(200).json({
-            message: 'User edited',
             user: {
                 name: user.name,
                 role: user.role
@@ -65,7 +63,6 @@ export async function deleteUser(req, res, next) {
         if (isNaN(id)) return next(new BadRequestError('Invalid user ID'));
         const user = await userService.deleteUser(id)
         res.status(200).json({
-            message: 'User deleted',
             user
         });
     } catch(err) {

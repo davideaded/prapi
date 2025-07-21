@@ -5,7 +5,6 @@ export async function getAllPosts(req, res, next) {
     try {
         const posts = await postService.getAllPosts();
         res.status(200).json({
-            message: `${posts.length} fetched`,
             posts
         });
     } catch(err) {
@@ -17,7 +16,6 @@ export async function getAllPublicPosts(req, res, next) {
     try {
         const posts = await postService.getAllPublicPosts();
         res.status(200).json({
-            message: `${posts.length} fetched`,
             posts
         });
     } catch(err) {
@@ -38,7 +36,6 @@ export async function getPostById(req, res, next) {
             }
         }
         res.status(200).json({
-            message: 'Post found',
             post
         });
     } catch(err) {
@@ -55,7 +52,6 @@ export async function createPost(req, res, next) {
         const post = await postService
             .createPost({title, content, authorId, published});
         res.status(201).json({
-            message: 'Post created',
             post: {
                 title: post.title,
                 content: post.content,
@@ -75,7 +71,6 @@ export async function updatePost(req, res, next) {
         if (!postData) return next(new BadRequestError('Invalid body'));
         const post = await postService.updatePost({id, postData});
         res.status(200).json({
-            message: 'Post edited',
             post: {
                 title: post.title,
                 content: post.content,
@@ -93,7 +88,6 @@ export async function deletePost(req, res, next) {
         if (isNaN(id)) return next(new BadRequestError('Invalid post ID'));
         const post = await postService.deletePost(id)
         res.status(200).json({
-            message: 'Post deleted',
             post
         });
     } catch(err) {

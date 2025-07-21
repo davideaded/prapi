@@ -5,7 +5,6 @@ export async function getAllComments(req, res, next) {
     try {
         const comments = await commentService.getAllComments();
         res.status(200).json({
-            message: `${comments.length} comments found`,
             comments,
         });
     } catch (err) {
@@ -18,7 +17,6 @@ export async function getCommentsByPostId(req, res, next) {
         const id = +req.params.id;
         const comments = await commentService.getCommentsByPostId(id);
         res.status(200).json({
-            message: `${comments.length} comments found`,
             comments,
         });
     } catch (err) {
@@ -32,7 +30,6 @@ export async function getCommentById(req, res, next) {
         if (isNaN(id)) return next(new BadRequestError('Invalid comment ID'));
         const comment = await commentService.getCommentById(id);
         res.status(200).json({
-            message: 'Comment found',
             comment,
         });
     } catch (err) {
@@ -53,7 +50,6 @@ export async function createComment(req, res, next) {
             authorId,
         });
         res.status(201).json({
-            message: 'Comment created',
             comment,
         });
     } catch (err) {
@@ -73,7 +69,6 @@ export async function updateComment(req, res, next) {
         }
         const updated = await commentService.updateComment({ id, content });
         res.status(200).json({
-            message: 'Comment updated',
             comment: updated,
         });
     } catch (err) {
@@ -91,7 +86,6 @@ export async function deleteComment(req, res, next) {
         }
         const deleted = await commentService.deleteComment(id);
         res.status(200).json({
-            message: 'Comment deleted',
             comment: deleted,
         });
     } catch (err) {
